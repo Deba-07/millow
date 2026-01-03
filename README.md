@@ -1,16 +1,65 @@
-# React + Vite
+# Millow — Real Estate NFT Escrow
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Simple example project demonstrating an NFT-based Real Estate escrow using Hardhat, OpenZeppelin, and a minimal Vite React frontend.
 
-Currently, two official plugins are available:
+--
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## Summary
 
-## React Compiler
+- **Contracts**: Implements an `ERC721` Real Estate token and an `Escrow` contract to list NFTs and hold them in escrow.
+- **Tools**: Hardhat for development and testing, OpenZeppelin contracts, and Vite + React for the frontend.
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+## Key Files
 
-## Expanding the ESLint configuration
+- Contract: [contracts/RealEstate.sol](contracts/RealEstate.sol)
+- Contract: [contracts/Escrow.sol](contracts/Escrow.sol)
+- Tests: [test/Escrow.js](test/Escrow.js)
+- Frontend entry: [src/App.jsx](src/App.jsx)
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+## Requirements
+
+- Node.js (16+ recommended)
+- npm or yarn
+
+## Setup
+
+1. Install dependencies
+
+```bash
+npm install
+```
+
+2. Compile contracts
+
+```bash
+npx hardhat compile
+```
+
+3. Run tests
+
+```bash
+npx hardhat test
+```
+
+4. Run the frontend (optional)
+
+```bash
+npm run dev
+```
+
+## What the code does
+
+- `RealEstate.sol` is an `ERC721URIStorage` token that allows anyone to mint a new property NFT via `mint(string memory tokenURI)` and exposes `totalSupply()`.
+- `Escrow.sol` accepts an NFT transfer to the contract via `list(uint256 _nftID)` and marks it as listed. The Escrow contract constructor accepts the NFT address, seller, inspector, and lender addresses.
+
+## Tests
+
+The test suite (see [test/Escrow.js](test/Escrow.js)):
+
+- Deploys `RealEstate` and mints a token for `seller`.
+- Deploys `Escrow` with the `RealEstate` address plus `seller`, `inspector`, and `lender` accounts.
+- Approves and lists the property, then asserts the NFT ownership transfers to the `Escrow` contract and listing state updates.
+
+## Notes
+
+- This is an example / learning project and should not be used as-is in production. Important escrow flows (deposit handling, inspections, approvals, cancellations, and security checks) are not implemented here and would be required for a production system.
