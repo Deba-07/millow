@@ -2,8 +2,8 @@
   "_format": "hh-sol-cache-2",
   "files": {
     "C:\\Web3.0 Projects\\millow\\contracts\\Escrow.sol": {
-      "lastModificationDate": 1767413848977,
-      "contentHash": "4ab9b8796c63560b227ca48c30d8d38a",
+      "lastModificationDate": 1767618449719,
+      "contentHash": "c9062cbdbc90752e2546e609fe245485",
       "sourceName": "contracts/Escrow.sol",
       "solcConfig": {
         "version": "0.8.20",
