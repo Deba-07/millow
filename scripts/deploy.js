@@ -37,6 +37,8 @@ async function main() {
     lender.address
   )
   await escrow.waitForDeployment()
+  const escrowAddress = await escrow.getAddress()
+  console.log(`Deployed escrow contract at: ${escrowAddress}`)
 
   for(let i = 0; i < 3; i++){
     // Approve properties
