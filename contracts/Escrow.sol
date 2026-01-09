@@ -96,10 +96,14 @@ contract Escrow {
 
     // Cancel sell (if inspection status is not approved the refund otherwise send to seller)
     function cancelSell(uint256 _nftID) public {
+        uint256 balance = address(this).balance;
+
         if (inspectionPassed[_nftID] == false) {
-            payable(buyer[_nftID]).transfer(address(this).balance);
+            (bool success, ) = payable(buyer[_nftID]).call{ value: balance }("");
+            require(success, "Refund to buyer failed");
         } else {
-            payable(seller).transfer(address(this).balance);
+            (bool success, ) = payable(seller).call{ value: balance }("");
+            require(success, "Payment to seller failed");
         }
     }
 
