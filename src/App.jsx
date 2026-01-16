@@ -1,22 +1,28 @@
 import React, { useEffect, useState } from 'react'
-import { BrowserProvider } from 'ethers'
+import { BrowserProvider, ethers } from 'ethers'
+import Navigation from './components/Navigation'
+import Search from './components/Search'
 
 const App = () => {
   const [ account, setAccount ] = useState(null)
 
   const loadBlockchainData = async () => {
     const provider = new BrowserProvider(window.ethereum)
-    console.log(provider)
-    const accounts = await window.ethereum.request({ method: 'eth_requestAccounts' })
-    setAccount(accounts[0])
-    console.log(accounts[0])
+    window.ethereum.on("accountsChanged", async () => {
+      const accounts = await window.ethereum.request({ method: 'eth_requestAccounts'})
+      const account = ethers.getAddress(accounts[0])
+      setAccount(account)
+    })
   }
 
   useEffect(() => {
     loadBlockchainData()
   }, [])
   return (
-    <div className='text-3xl text-black font-bold text-center'>App</div>
+    <div>
+      <Navigation account={account} setAccount={setAccount}/>
+      <Search />
+    </div>
   )
 }
 
